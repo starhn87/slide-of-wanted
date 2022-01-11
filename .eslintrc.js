@@ -31,6 +31,13 @@ module.exports = {
     "import/no-extraneous-dependencies": 0,
     "no-shadow": 0,
     "react/prop-types": 0,
+    "react/function-component-definition": [
+      2,
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      },
+    ],
     "react/jsx-filename-extension": [
       2,
       { extensions: [".js", ".jsx", ".ts", ".tsx"] },
