@@ -1960,8 +1960,8 @@
 
 .slideList {
   opacity: 1;
-  transform: translate3d(-18346.5px, 0px, 0px);
-  width: 41151px;
+  // transform: translate3d(-18346.5px, 0px, 0px);
+  // width: 41151px;
 }
 
 .slideContent {
@@ -1969,13 +1969,17 @@
   display: inline-block;
 }
 
+.slick-center {
+  // left: calc((100% - 1200px) / 2);
+}
+
 .slideWidth {
-  width: 1060px;
+  width: auto;
 }
 
 .slideOutline {
   outline: none;
-  width: 1060px;
+  width: auto;
 }
 
 .headerBtn {
@@ -1985,6 +1989,11 @@
 .sliding {
   opacity: 1;
   transform: translate3d(-17207.5px, 0px, 0px);
-  width: 44781px;
+  // width: 44781px;
+  width: 50000px;
   transition: 500ms ease 0s;
+}
+
+.noSlide {
+  transition: 0s ease 0s !important;
 }
