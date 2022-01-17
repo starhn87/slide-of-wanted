@@ -12,12 +12,12 @@ const Slider: React.FC = () => {
             <div
               id="slideList"
               className="slick-track slideList sliding"
-              style={{ marginLeft: slide }}
+              style={{ transform: `translate3d(${slide}px, 0px, 0px)` }}
             >
               <div
                 data-index="-2"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -72,7 +72,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-1"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -127,7 +127,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-11"
                 tabIndex={-1}
-                className="slick-slide slick-center slick-cloned slideWidth"
+                className="slick-slide slick-center slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -178,7 +178,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-10"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -229,7 +229,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-9"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -284,7 +284,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-8"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -335,7 +335,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-7"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -390,7 +390,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-6"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -441,7 +441,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-5"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -492,7 +492,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-4"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -543,7 +543,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-3"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -594,7 +594,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-2"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -649,7 +649,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-1"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -704,7 +704,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-11"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>
@@ -755,7 +755,7 @@ const Slider: React.FC = () => {
               <div
                 data-index="-10"
                 tabIndex={-1}
-                className="slick-slide slick-cloned slideWidth"
+                className="slick-slide slick-cloned"
                 aria-hidden="true"
               >
                 <div>

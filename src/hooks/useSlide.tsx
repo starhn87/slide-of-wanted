@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useSlide: any = () => {
-  const LENGTH = 15;
   const SIZE = -1084;
   const [count, setCount] = useState(2);
   const [slide, setSlide] = useState(-1800);
@@ -65,16 +64,13 @@ const useSlide: any = () => {
       setTimeout(() => {
         SLIDES?.setAttribute("style", "transition: .5s ease 0s");
         setSlide((slide) => {
-          console.log(slide);
           return slide + SIZE;
         });
         setCount((count) => {
-          console.log(count);
           return count + 1;
         });
       }, 0);
       // SLIDES?.setAttribute("style", "transition: 0.5s ease 0s");
-      console.log(slide, count);
     } else {
       const nextSlide = activedSlide?.nextElementSibling;
       nextSlide?.classList.add("slick-center");
@@ -90,7 +86,6 @@ const useSlide: any = () => {
 
       setSlide(slide + SIZE);
       setCount(count + 1);
-      console.log(slide, count);
     }
   };
 
@@ -108,7 +103,6 @@ const useSlide: any = () => {
     activedInfo?.classList.remove("Information_Information__active__5qVDq");
 
     if (count === 2) {
-      console.log(NODES);
       const lastNode = NODES[NODES.length - 2];
       lastNode?.classList.add("slick-center");
 
@@ -154,8 +148,6 @@ const useSlide: any = () => {
         setSlide((slide) => slide - SIZE);
         setCount((count) => count - 1);
       }, 0);
-
-      console.log(slide, count);
     } else {
       const prevSlide = activedSlide?.previousElementSibling;
       prevSlide?.classList.add("slick-center");
@@ -171,7 +163,6 @@ const useSlide: any = () => {
 
       setSlide(slide - SIZE);
       setCount(count - 1);
-      console.log(slide, count);
     }
   };
 
@@ -183,7 +174,9 @@ const useSlide: any = () => {
       moveRight();
     }, 3000);
 
-    return () => clearTimeout(slider);
+    return () => {
+      clearTimeout(slider);
+    };
   }, [slide, count]);
 
   return { slide, moveRight, moveLeft };
