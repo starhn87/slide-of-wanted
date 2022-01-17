@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Data from "../assets/data";
+import Data from "../assets/Data";
 import { SlideProvider } from "../components/Slide";
 
 interface Provider {
@@ -18,7 +18,6 @@ const useSlide = (): Provider => {
 
   const slideList = useMemo(() => {
     const list = Data;
-    console.log("catch!");
     if (Data.length > 2) {
       list.unshift(Data[Data.length - 1]);
       list.unshift(Data[Data.length - 2]);
