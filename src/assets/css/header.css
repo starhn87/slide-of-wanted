@@ -2532,3 +2532,20 @@ textarea {
 a:focus {
   outline: none !important;
 }
+
+.headerBadge {
+  background-color: rgb(51, 102, 255);
+  width: 13px !important;
+  height: 13px !important;
+}
+
+.menuImage {
+  width: 17px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.avatarImageLayout {
+  background-image: url(https://static.wanted.co.kr/images/avatars/508640/99995b38.jpg),
+    url(https://static.wanted.co.kr/images/profile_default.png);
+}

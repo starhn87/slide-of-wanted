@@ -12,7 +12,7 @@ const useSlide = (): {
   let SLIDES: HTMLDivElement | null;
 
   const unfocusSlide = (slide: Element | null | undefined) => {
-    slide?.classList.remove("slick-center");
+    slide?.classList.remove("center");
 
     const image = slide?.querySelector(
       ".Image_Image__T6WBp.Image_Image__active___6EY5"
@@ -20,23 +20,23 @@ const useSlide = (): {
     image?.classList.remove("Image_Image__active___6EY5");
 
     const info = slide?.querySelector(
-      ".Information_Information__SwERN.Information_Information__active__5qVDq"
+      ".inactivedInfo.Information_Information__active__5qVDq"
     );
     info?.classList.remove("Information_Information__active__5qVDq");
   };
 
   const focusSlide = (slide: Element | null | undefined) => {
-    slide?.classList.add("slick-center");
+    slide?.classList.add("center");
 
     const image = slide?.querySelector(".Image_Image__T6WBp");
     image?.classList.add("Image_Image__active___6EY5");
 
-    const info = slide?.querySelector(".Information_Information__SwERN");
+    const info = slide?.querySelector(".inactivedInfo");
     info?.classList.add("Information_Information__active__5qVDq");
   };
 
   const moveRight = () => {
-    const activedSlide = document.querySelector(".slick-center");
+    const activedSlide = document.querySelector(".center");
     unfocusSlide(activedSlide);
 
     // 무한 슬라이딩을 위해 해당 조건일 경우 trainsition을 바꿔서 앞으로 이동시킨다.
@@ -69,7 +69,7 @@ const useSlide = (): {
   };
 
   const moveLeft = () => {
-    const activedSlide = document.querySelector(".slick-center");
+    const activedSlide = document.querySelector(".center");
     unfocusSlide(activedSlide);
 
     // 무한 슬라이딩 효과를 위해 해당 조건일 경우 transition을 바꿔서 뒤로 이동시킨다.
@@ -99,7 +99,7 @@ const useSlide = (): {
   };
 
   useEffect(() => {
-    NODES = document.querySelectorAll(".slick-slide.slick-cloned");
+    NODES = document.querySelectorAll(".slide.cloned");
     SLIDES = document.querySelector("#slideList");
 
     const slider = setTimeout(() => {
