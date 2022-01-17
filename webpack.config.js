@@ -3,6 +3,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: path.join(__dirname, "/src"),
@@ -13,7 +14,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "/dist"),
-    filename: "[name].bundle.js",
+    filename: "js/[name].bundle.js",
     clean: true,
   },
   module: {
@@ -29,6 +30,9 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimizer: [new CssMinimizerPlugin()],
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -36,6 +40,6 @@ module.exports = {
       fileName: path.join(__dirname, "/dist"),
       minify: true,
     }),
-    new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
+    new MiniCssExtractPlugin({ filename: "css/[name].[contenthash].css" }),
   ],
 };
