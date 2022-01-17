@@ -17,10 +17,11 @@ const useSlide = (): {
     const image = slide?.querySelector(
       ".Image_Image__T6WBp.Image_Image__active___6EY5"
     );
+    image?.classList.remove("Image_Image__active___6EY5");
+
     const info = slide?.querySelector(
       ".Information_Information__SwERN.Information_Information__active__5qVDq"
     );
-    image?.classList.remove("Image_Image__active___6EY5");
     info?.classList.remove("Information_Information__active__5qVDq");
   };
 
@@ -28,8 +29,9 @@ const useSlide = (): {
     slide?.classList.add("slick-center");
 
     const image = slide?.querySelector(".Image_Image__T6WBp");
-    const info = slide?.querySelector(".Information_Information__SwERN");
     image?.classList.add("Image_Image__active___6EY5");
+
+    const info = slide?.querySelector(".Information_Information__SwERN");
     info?.classList.add("Information_Information__active__5qVDq");
   };
 
@@ -37,6 +39,7 @@ const useSlide = (): {
     const activedSlide = document.querySelector(".slick-center");
     unfocusSlide(activedSlide);
 
+    // 무한 슬라이딩을 위해 해당 조건일 경우 trainsition을 바꿔서 앞으로 이동시킨다.
     if (count === NODES.length - 3) {
       const firstSlide = NODES[1];
       focusSlide(firstSlide);
@@ -69,6 +72,7 @@ const useSlide = (): {
     const activedSlide = document.querySelector(".slick-center");
     unfocusSlide(activedSlide);
 
+    // 무한 슬라이딩 효과를 위해 해당 조건일 경우 transition을 바꿔서 뒤로 이동시킨다.
     if (count === 2) {
       const lastNode = NODES[NODES.length - 2];
       focusSlide(lastNode);
