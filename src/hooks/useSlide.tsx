@@ -11,59 +11,42 @@ const useSlide = (): {
   let NODES: NodeListOf<HTMLElement>;
   let SLIDES: HTMLDivElement | null;
 
-  const moveRight = () => {
-    const activedSlide = document.querySelector(".slick-center");
-    activedSlide?.classList.remove("slick-center");
+  const unfocusSlide = (slide: Element | null | undefined) => {
+    slide?.classList.remove("slick-center");
 
-    const activedImage = activedSlide?.querySelector(
+    const image = slide?.querySelector(
       ".Image_Image__T6WBp.Image_Image__active___6EY5"
     );
-    const activedInfo = activedSlide?.querySelector(
+    const info = slide?.querySelector(
       ".Information_Information__SwERN.Information_Information__active__5qVDq"
     );
-    activedImage?.classList.remove("Image_Image__active___6EY5");
-    activedInfo?.classList.remove("Information_Information__active__5qVDq");
+    image?.classList.remove("Image_Image__active___6EY5");
+    info?.classList.remove("Information_Information__active__5qVDq");
+  };
+
+  const focusSlide = (slide: Element | null | undefined) => {
+    slide?.classList.add("slick-center");
+
+    const image = slide?.querySelector(".Image_Image__T6WBp");
+    const info = slide?.querySelector(".Information_Information__SwERN");
+    image?.classList.add("Image_Image__active___6EY5");
+    info?.classList.add("Information_Information__active__5qVDq");
+  };
+
+  const moveRight = () => {
+    const activedSlide = document.querySelector(".slick-center");
+    unfocusSlide(activedSlide);
 
     if (count === NODES.length - 3) {
       const firstSlide = NODES[1];
-      firstSlide?.classList.add("slick-center");
-
-      const firstImage = (firstSlide as HTMLElement).querySelector(
-        ".Image_Image__T6WBp"
-      );
-      const firstInfo = (firstSlide as HTMLElement).querySelector(
-        ".Information_Information__SwERN"
-      );
-      firstImage?.classList.add("Image_Image__active___6EY5");
-      firstInfo?.classList.add("Information_Information__active__5qVDq");
+      focusSlide(firstSlide);
 
       SLIDES?.setAttribute("style", "transition: 0s");
       setSlide(-700);
       setCount(1);
 
-      const activedSlide = firstSlide;
-      activedSlide?.classList.remove("slick-center");
-
-      const activedImage = activedSlide?.querySelector(
-        ".Image_Image__T6WBp.Image_Image__active___6EY5"
-      );
-      const activedInfo = activedSlide?.querySelector(
-        ".Information_Information__SwERN.Information_Information__active__5qVDq"
-      );
-      activedImage?.classList.remove("Image_Image__active___6EY5");
-      activedInfo?.classList.remove("Information_Information__active__5qVDq");
-
-      const nextSlide = activedSlide?.nextElementSibling;
-      nextSlide?.classList.add("slick-center");
-
-      const nextImage = (nextSlide as HTMLElement).querySelector(
-        ".Image_Image__T6WBp"
-      );
-      const nextInfo = (nextSlide as HTMLElement).querySelector(
-        ".Information_Information__SwERN"
-      );
-      nextImage?.classList.add("Image_Image__active___6EY5");
-      nextInfo?.classList.add("Information_Information__active__5qVDq");
+      unfocusSlide(firstSlide);
+      focusSlide(firstSlide.nextElementSibling);
 
       setTimeout(() => {
         SLIDES?.setAttribute("style", "transition: .5s ease 0s");
@@ -74,19 +57,8 @@ const useSlide = (): {
           return count + 1;
         });
       }, 0);
-      // SLIDES?.setAttribute("style", "transition: 0.5s ease 0s");
     } else {
-      const nextSlide = activedSlide?.nextElementSibling;
-      nextSlide?.classList.add("slick-center");
-
-      const nextImage = (nextSlide as HTMLElement).querySelector(
-        ".Image_Image__T6WBp"
-      );
-      const nextInfo = (nextSlide as HTMLElement).querySelector(
-        ".Information_Information__SwERN"
-      );
-      nextImage?.classList.add("Image_Image__active___6EY5");
-      nextInfo?.classList.add("Information_Information__active__5qVDq");
+      focusSlide(activedSlide?.nextElementSibling);
 
       setSlide(slide + SIZE);
       setCount(count + 1);
@@ -95,57 +67,18 @@ const useSlide = (): {
 
   const moveLeft = () => {
     const activedSlide = document.querySelector(".slick-center");
-    activedSlide?.classList.remove("slick-center");
-
-    const activedImage = activedSlide?.querySelector(
-      ".Image_Image__T6WBp.Image_Image__active___6EY5"
-    );
-    const activedInfo = activedSlide?.querySelector(
-      ".Information_Information__SwERN.Information_Information__active__5qVDq"
-    );
-    activedImage?.classList.remove("Image_Image__active___6EY5");
-    activedInfo?.classList.remove("Information_Information__active__5qVDq");
+    unfocusSlide(activedSlide);
 
     if (count === 2) {
       const lastNode = NODES[NODES.length - 2];
-      lastNode?.classList.add("slick-center");
-
-      const lastImage = (lastNode as HTMLElement).querySelector(
-        ".Image_Image__T6WBp"
-      );
-      const lastInfo = (lastNode as HTMLElement).querySelector(
-        ".Information_Information__SwERN"
-      );
-      lastImage?.classList.add("Image_Image__active___6EY5");
-      lastInfo?.classList.add("Information_Information__active__5qVDq");
+      focusSlide(lastNode);
 
       SLIDES?.setAttribute("style", "transition: 0s");
       setSlide(slide + SIZE * 11);
       setCount(NODES.length - 2);
 
-      const activedSlide = lastNode;
-      activedSlide?.classList.remove("slick-center");
-
-      const activedImage = activedSlide?.querySelector(
-        ".Image_Image__T6WBp.Image_Image__active___6EY5"
-      );
-      const activedInfo = activedSlide?.querySelector(
-        ".Information_Information__SwERN.Information_Information__active__5qVDq"
-      );
-      activedImage?.classList.remove("Image_Image__active___6EY5");
-      activedInfo?.classList.remove("Information_Information__active__5qVDq");
-
-      const prevSlide = activedSlide?.previousElementSibling;
-      prevSlide?.classList.add("slick-center");
-
-      const prevImage = (prevSlide as HTMLElement).querySelector(
-        ".Image_Image__T6WBp"
-      );
-      const prevInfo = (prevSlide as HTMLElement).querySelector(
-        ".Information_Information__SwERN"
-      );
-      prevImage?.classList.add("Image_Image__active___6EY5");
-      prevInfo?.classList.add("Information_Information__active__5qVDq");
+      unfocusSlide(lastNode);
+      focusSlide(lastNode.previousElementSibling);
 
       setTimeout(() => {
         SLIDES?.setAttribute("style", "transition: .5s ease 0s");
@@ -154,16 +87,7 @@ const useSlide = (): {
       }, 0);
     } else {
       const prevSlide = activedSlide?.previousElementSibling;
-      prevSlide?.classList.add("slick-center");
-
-      const prevImage = (prevSlide as HTMLElement).querySelector(
-        ".Image_Image__T6WBp"
-      );
-      const prevInfo = (prevSlide as HTMLElement).querySelector(
-        ".Information_Information__SwERN"
-      );
-      prevImage?.classList.add("Image_Image__active___6EY5");
-      prevInfo?.classList.add("Information_Information__active__5qVDq");
+      focusSlide(prevSlide);
 
       setSlide(slide - SIZE);
       setCount(count - 1);
