@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const useSlide: any = () => {
+const useSlide = (): {
+  slide: number;
+  moveRight: () => void;
+  moveLeft: () => void;
+} => {
   const SIZE = -1084;
   const [count, setCount] = useState(2);
   const [slide, setSlide] = useState(-1800);
