@@ -1,38 +1,52 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Data from "../assets/data";
+import { SlideProvider } from "../components/Slide";
 
-const useSlide = (): {
+interface Provider {
+  slideList: SlideProvider[];
   slide: number;
   moveRight: () => void;
   moveLeft: () => void;
-} => {
+}
+
+const useSlide = (): Provider => {
   const SIZE = -1084;
   const [count, setCount] = useState(2);
   const [slide, setSlide] = useState(-1800);
   let NODES: NodeListOf<HTMLElement>;
   let SLIDES: HTMLDivElement | null;
 
+  const slideList = useMemo(() => {
+    const list = Data;
+    console.log("catch!");
+    if (Data.length > 2) {
+      list.unshift(Data[Data.length - 1]);
+      list.unshift(Data[Data.length - 2]);
+      list.push(Data[2]);
+      list.push(Data[3]);
+    }
+
+    return list;
+  }, [Data]);
+
   const unfocusSlide = (slide: Element | null | undefined) => {
     slide?.classList.remove("center");
 
-    const image = slide?.querySelector(
-      ".Image_Image__T6WBp.Image_Image__active___6EY5"
-    );
-    image?.classList.remove("Image_Image__active___6EY5");
+    const image = slide?.querySelector(".inactivedImage.activedImage");
+    image?.classList.remove("activedImage");
 
-    const info = slide?.querySelector(
-      ".inactivedInfo.Information_Information__active__5qVDq"
-    );
-    info?.classList.remove("Information_Information__active__5qVDq");
+    const info = slide?.querySelector(".inactivedInfo.activedInfo");
+    info?.classList.remove("activedInfo");
   };
 
   const focusSlide = (slide: Element | null | undefined) => {
     slide?.classList.add("center");
 
-    const image = slide?.querySelector(".Image_Image__T6WBp");
-    image?.classList.add("Image_Image__active___6EY5");
+    const image = slide?.querySelector(".inactivedImage");
+    image?.classList.add("activedImage");
 
     const info = slide?.querySelector(".inactivedInfo");
-    info?.classList.add("Information_Information__active__5qVDq");
+    info?.classList.add("activedInfo");
   };
 
   const moveRight = () => {
@@ -99,7 +113,7 @@ const useSlide = (): {
   };
 
   useEffect(() => {
-    NODES = document.querySelectorAll(".slide.cloned");
+    NODES = document.querySelectorAll(".slide");
     SLIDES = document.querySelector("#slideList");
 
     const slider = setTimeout(() => {
@@ -111,7 +125,7 @@ const useSlide = (): {
     };
   }, [slide, count]);
 
-  return { slide, moveRight, moveLeft };
+  return { slideList, slide, moveRight, moveLeft };
 };
 
 export { useSlide };

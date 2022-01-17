@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "./Header";
-import Slide from "./Slide";
+import Slider from "./Slider";
 
 const App: React.FC = () => (
   <>
     <Header />
-    <Slide />
+    <Slider />
   </>
 );
 
