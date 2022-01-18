@@ -19,9 +19,12 @@ const useSlide = (): Provider => {
   const slideList = useMemo(() => {
     const list = Data;
     if (Data.length > 2) {
+      const firstSlide = { ...list[0] };
+      delete firstSlide.center;
+
       list.unshift(Data[Data.length - 1]);
       list.unshift(Data[Data.length - 2]);
-      list.push(Data[2]);
+      list.push(firstSlide);
       list.push(Data[3]);
     }
 
