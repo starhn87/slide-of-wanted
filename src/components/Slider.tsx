@@ -1,22 +1,23 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
+import { v4 as uuid } from "uuid";
 import { useSlide } from "../hooks/useSlide";
 import "../assets/css/slide.css";
 import Slide from "./Slide";
 
 const Slider: React.FC = () => {
-  const { slideList, slide, moveLeft, moveRight } = useSlide();
+  const { slideList, slideMargin, moveLeft, moveRight } = useSlide();
 
   return (
     <main className="slideBox">
       <div className="TopBanner">
         <div className="slider initialized" dir="ltr">
-          <div className="list paddingSetting">
+          <div className="list">
             <div
               id="slideList"
               className="track slideList sliding"
-              style={{ transform: `translate3d(${slide}px, 0px, 0px)` }}
+              style={{ transform: `translate3d(${slideMargin}px, 0px, 0px)` }}
             >
               {slideList.map((s) => (
                 <Slide key={s.id} {...s}></Slide>

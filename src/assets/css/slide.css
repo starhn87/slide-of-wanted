@@ -71,6 +71,7 @@
   height: 100%;
   min-height: 1px;
   display: none;
+  outline: none;
 }
 [dir="rtl"] .slide {
   float: right;
@@ -127,7 +128,7 @@
     height: 183px;
     border-radius: 3px 3px 0 0;
   }
-  .inactivedImage > a {
+  .inactivedImage > div {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -145,7 +146,7 @@
     height: 183px;
     border-radius: 3px 3px 0 0;
   }
-  .inactivedImage > a {
+  .inactivedImage > div {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -163,7 +164,7 @@
     height: 183px;
     border-radius: 3px 3px 0 0;
   }
-  .inactivedImage > a {
+  .inactivedImage > div {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -174,6 +175,7 @@
     -ms-flex-pack: center;
     justify-content: center;
     height: 100%;
+    width: 100%;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -181,7 +183,7 @@
     height: 183px;
     border-radius: 3px 3px 0 0;
   }
-  .inactivedImage > a {
+  .inactivedImage > div {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -411,10 +413,6 @@
 .topBannerPrevArrow {
   left: calc((100% - 1210px) / 2);
 }
-.paddingSetting {
-  padding: 0px 50px;
-}
-
 .slideList {
   opacity: 1;
 }

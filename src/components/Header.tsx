@@ -5,17 +5,17 @@ import "../assets/css/style-cf.css";
 
 const Header: React.FC = () => (
   <>
-    <div role="presentation" className="NavBar_className__y2qGg">
-      <div className="MainBar_MainBar__40DX7" role="presentation">
-        <nav className="MainBar_MainBar_nav__kwHBF">
-          <div className="MainBar_MainBar_nav_top__wXy52">
-            <div className="MainBar_MainBar_nav_top_logo__Y_Q5D">
+    <div role="presentation" className="navBox">
+      <div className="navContainer" role="presentation">
+        <nav className="navBar">
+          <div className="navBarTop">
+            <div className="navBarTopLogo">
               <button
                 type="button"
                 aria-label="jobCategoryMenuButton"
                 data-attribute-id="gnb"
                 data-gnb-kind="jobCategoryMenu"
-                className="MainBar_hamberger__yQfei"
+                className="navButton"
               >
                 <img
                   src="https://static.wanted.co.kr/images/icon-menu.png"
@@ -25,7 +25,7 @@ const Header: React.FC = () => (
               </button>
               <a
                 href="/"
-                className="MainBar_MainBar_logo__bGymr"
+                className="homeMenu"
                 aria-label="homeLink"
                 data-attribute-id="gnb"
                 data-gnb-kind="home"
@@ -34,7 +34,7 @@ const Header: React.FC = () => (
               </a>
             </div>
           </div>
-          <ul className="Menu_className__gGcYQ">
+          <ul className="menuList">
             <li
               className="xsHomeButton xsOnly selectedNav"
               data-attribute-id="gnb"
@@ -178,7 +178,7 @@ const Header: React.FC = () => (
               </a>
             </li>
           </ul>
-          <aside className="Aside_className___e5Bi isLoggedIn">
+          <aside className="aside isLoggedIn">
             <ul>
               <li>
                 <button
@@ -213,7 +213,7 @@ const Header: React.FC = () => (
                   </svg>
                 </button>
               </li>
-              <li className="Aside_hasNewNotificationAlarm__OwKDI">
+              <li className="alarm">
                 <button
                   type="button"
                   aria-label="notiButton"
@@ -252,7 +252,7 @@ const Header: React.FC = () => (
                     </g>
                   </svg>
                 </button>
-                <span className="Badge_Badge__BJTzL headerBadge">
+                <span className="badge headerBadge">
                   <svg className="" width="5" height="5" viewBox="0 0 6 6">
                     <g fill="#fff" fillRule="nonzero">
                       <path
@@ -263,7 +263,7 @@ const Header: React.FC = () => (
                   </svg>
                 </span>
               </li>
-              <li className="mdMoreVisible profileBox Aside_hasNewMywantedAlarm__p2Tfv">
+              <li className="mdMoreVisible profileBox hasNewMywantedAlarm">
                 <button
                   type="button"
                   data-attribute-id="gnb"
@@ -276,7 +276,7 @@ const Header: React.FC = () => (
                     <div className="avatarImage avatarImageLayout"></div>
                   </div>
                 </button>
-                <span className="Badge_Badge__BJTzL headerBadge">
+                <span className="badge headerBadge">
                   <svg className="" width="5" height="5" viewBox="0 0 6 6">
                     <g fill="#fff" fillRule="nonzero">
                       <path
@@ -296,7 +296,7 @@ const Header: React.FC = () => (
                   기업 서비스
                 </a>
               </li>
-              <li className="Aside_visibleMenu__Dki9n">
+              <li className="asideMenu">
                 <button
                   className="menuButton"
                   aria-label="menuButton"
@@ -328,12 +328,12 @@ const Header: React.FC = () => (
                 </button>
               </li>
             </ul>
-            <div className="Aside_visibleMenu__Dki9n"></div>
+            <div className="asideMenu"></div>
           </aside>
         </nav>
       </div>
     </div>
-    <div className="Padding_padding___Nyki"></div>
+    <div className="menuPadding"></div>
   </>
 );
 

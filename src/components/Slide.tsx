@@ -3,11 +3,11 @@ import React from "react";
 import "../assets/css/slide.css";
 
 export interface SlideProvider {
-  id: string;
   imgSrc: string;
   title: string;
   subtitle: string;
   center?: boolean;
+  id: string;
 }
 
 const Slide: React.FC<SlideProvider> = ({
