@@ -21,9 +21,6 @@ const useSlide = (): Provider => {
   );
   const [count, setCount] = useState(2);
   const [slideMargin, setSlideMargin] = useState(size);
-  const [width, setWidth] = useState(
-    window.innerWidth < STANDARD_SCREEN_WIDTH ? window.innerWidth - 95 : 1060
-  );
   let NODES: NodeListOf<HTMLElement>;
   let SLIDES: HTMLDivElement | null;
 
@@ -133,10 +130,11 @@ const useSlide = (): Provider => {
   };
 
   const handleResize = () => {
+    let width = 1060;
     if (window.innerWidth < STANDARD_SCREEN_WIDTH) {
-      setWidth(window.innerWidth - 95);
       setSlideMargin(-window.innerWidth * count + 195);
       setSize(-window.innerWidth + 95);
+      width = window.innerWidth - 95;
       SLIDES?.setAttribute(
         "style",
         `width: ${width * NODES.length}px; transform: translate3d(${
@@ -144,7 +142,6 @@ const useSlide = (): Provider => {
         }px, 0, 0);`
       );
     } else if (window.innerWidth === STANDARD_SCREEN_WIDTH) {
-      setWidth(1060);
       setSlideMargin(-DEFAULT_SLIDE_SIZE * count + 10);
       setSize(-DEFAULT_SLIDING_WIDTH);
       SLIDES?.setAttribute(
@@ -159,7 +156,6 @@ const useSlide = (): Provider => {
       const margin =
         size * count +
         ((window.innerWidth - STANDARD_SCREEN_WIDTH) * NODES.length) / 29;
-      setWidth(1060);
       setSize(-DEFAULT_SLIDING_WIDTH);
       setSlideMargin(margin);
 
@@ -194,14 +190,14 @@ const useSlide = (): Provider => {
 
     setPadding();
 
-    // const slider = setTimeout(() => {
-    //   moveRight();
-    // }, 3000);
+    const slider = setTimeout(() => {
+      moveRight();
+    }, 3000);
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      // clearTimeout(slider);
+      clearTimeout(slider);
       document.removeEventListener("resize", handleResize);
     };
   }, [slideMargin, count]);
@@ -210,7 +206,7 @@ const useSlide = (): Provider => {
     NODES = document.querySelectorAll(".slide");
     SLIDES = document.querySelector("#slideList");
     handleResize();
-  }, [width]);
+  }, []);
 
   return { slideList, slideMargin, moveRight, moveLeft };
 };
