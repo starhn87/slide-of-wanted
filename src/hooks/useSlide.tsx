@@ -79,11 +79,12 @@ const useSlide = (): Provider => {
         "style",
         `transitionDuration: 0ms; transform: translate3d(${slideMargin}px, 0, 0);`
       );
-    }
 
-    timer = setTimeout(() => {
-      moveRight();
-    }, 3000);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        moveRight();
+      }, 4000);
+    }
   };
 
   const unfocusSlide = (slide: Element | null | undefined) => {
