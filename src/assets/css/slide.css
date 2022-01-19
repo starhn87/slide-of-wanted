@@ -434,9 +434,9 @@
 .sliding {
   opacity: 1;
   width: max-content;
-  transition: 500ms ease 0s;
+  transition: 500ms;
 }
 
 .noSlide {
-  transition: 0s ease 0s !important;
+  transition: 0s !important;
 }

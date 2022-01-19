@@ -23,6 +23,9 @@ const useSlide = (): Provider => {
   const [slideMargin, setSlideMargin] = useState(size);
   let NODES: NodeListOf<HTMLElement>;
   let SLIDES: HTMLDivElement | null;
+  let startPos = 0;
+  let offset = 0;
+  let swiping = false;
 
   const slideList = useMemo(() => {
     const list = Data;
@@ -37,6 +40,51 @@ const useSlide = (): Provider => {
 
     return list;
   }, [Data]);
+
+  const swipe = () => {
+    SLIDES?.addEventListener("mousedown", handleMouseDown);
+    SLIDES?.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseDown = (event: MouseEvent) => {
+    event.preventDefault();
+    clearTimeout(timer);
+    startPos = event.pageX;
+    swiping = true;
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (swiping) {
+      offset = event.pageX - startPos;
+
+      SLIDES?.setAttribute(
+        "style",
+        `transitionDuration: 0ms; transform: translate3d(${
+          slideMargin + offset
+        }px, 0, 0);`
+      );
+    }
+  };
+
+  const handleMouseUp = () => {
+    swiping = false;
+
+    if (offset < size / 2) {
+      moveRight();
+    } else if (offset > -size / 2) {
+      moveLeft();
+    } else if (offset > size / 2) {
+      SLIDES?.setAttribute(
+        "style",
+        `transitionDuration: 0ms; transform: translate3d(${slideMargin}px, 0, 0);`
+      );
+    }
+
+    timer = setTimeout(() => {
+      moveRight();
+    }, 3000);
+  };
 
   const unfocusSlide = (slide: Element | null | undefined) => {
     slide?.classList.remove("center");
@@ -184,21 +232,25 @@ const useSlide = (): Provider => {
     }
   };
 
+  let timer = setTimeout(() => {
+    moveRight();
+  }, 4000);
+
   useEffect(() => {
     NODES = document.querySelectorAll(".slide");
     SLIDES = document.querySelector("#slideList");
+    swipe();
 
     setPadding();
-
-    const slider = setTimeout(() => {
-      moveRight();
-    }, 3000);
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      clearTimeout(slider);
+      clearTimeout(timer);
       document.removeEventListener("resize", handleResize);
+      SLIDES?.removeEventListener("mousedown", handleMouseDown);
+      SLIDES?.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [slideMargin, count]);
 
