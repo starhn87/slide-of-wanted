@@ -26,6 +26,7 @@ const useSlide = (): Provider => {
   let startPos = 0;
   let offset = 0;
   let swiping = false;
+  let timer: NodeJS.Timeout;
 
   const slideList = useMemo(() => {
     const list = Data;
@@ -109,6 +110,7 @@ const useSlide = (): Provider => {
 
   const moveRight = () => {
     const activedSlide = document.querySelector(".center");
+    const nextSlide = activedSlide?.nextElementSibling;
     unfocusSlide(activedSlide);
 
     // 무한 슬라이딩을 위해 해당 조건일 경우 trainsition을 바꿔서 앞으로 이동시킨다.
@@ -142,7 +144,7 @@ const useSlide = (): Provider => {
         });
       }, 0);
     } else {
-      focusSlide(activedSlide?.nextElementSibling);
+      focusSlide(nextSlide);
       setSlideMargin(slideMargin + size);
       setCount(count + 1);
     }
@@ -150,6 +152,7 @@ const useSlide = (): Provider => {
 
   const moveLeft = () => {
     const activedSlide = document.querySelector(".center");
+    const prevSlide = activedSlide?.previousElementSibling;
     unfocusSlide(activedSlide);
 
     // 무한 슬라이딩 효과를 위해 해당 조건일 경우 transition을 바꿔서 뒤로 이동시킨다.
@@ -170,9 +173,7 @@ const useSlide = (): Provider => {
         setCount((count) => count - 1);
       }, 0);
     } else {
-      const prevSlide = activedSlide?.previousElementSibling;
       focusSlide(prevSlide);
-
       setSlideMargin(slideMargin - size);
       setCount(count - 1);
     }
@@ -233,10 +234,6 @@ const useSlide = (): Provider => {
     }
   };
 
-  let timer = setTimeout(() => {
-    moveRight();
-  }, 4000);
-
   useEffect(() => {
     NODES = document.querySelectorAll(".slide");
     SLIDES = document.querySelector("#slideList");
@@ -244,11 +241,14 @@ const useSlide = (): Provider => {
 
     setPadding();
 
+    timer = setTimeout(() => {
+      moveRight();
+    }, 4000);
     window.addEventListener("resize", handleResize);
 
     return () => {
       clearTimeout(timer);
-      document.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize);
       SLIDES?.removeEventListener("mousedown", handleMouseDown);
       SLIDES?.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
