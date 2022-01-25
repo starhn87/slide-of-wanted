@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Data from "../assets/Data";
+import Contents from "../assets/Data.json";
 import { SlideProvider } from "../components/Slide";
 
 interface Provider {
@@ -29,18 +29,18 @@ const useSlide = (): Provider => {
   let timer: NodeJS.Timeout;
 
   const slideList = useMemo(() => {
-    const list = Data;
-    if (Data.length > 2) {
+    const list = Contents.data;
+    if (Contents.data.length > 2) {
       const firstSlide = { ...list[0] };
       delete firstSlide.center;
-      list.unshift(Data[Data.length - 1]);
-      list.unshift(Data[Data.length - 2]);
+      list.unshift(Contents.data[Contents.data.length - 1]);
+      list.unshift(Contents.data[Contents.data.length - 2]);
       list.push(firstSlide);
-      list.push(Data[3]);
+      list.push(Contents.data[3]);
     }
 
     return list;
-  }, [Data]);
+  }, [Contents]);
 
   const swipe = () => {
     SLIDES?.addEventListener("mousedown", handleMouseDown);

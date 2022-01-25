@@ -1,13 +1,12 @@
 /* eslint-disable react/require-default-props */
 import React from "react";
-import "../assets/css/slide.css";
+import "../assets/scss/slide.scss";
 
 export interface SlideProvider {
   imgSrc: string;
   title: string;
   subtitle: string;
   center?: boolean;
-  id: string;
 }
 
 const Slide: React.FC<SlideProvider> = ({

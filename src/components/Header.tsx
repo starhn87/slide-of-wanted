@@ -1,7 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/header.css";
-import "../assets/css/style-cf.css";
+import "../assets/scss/header.scss";
 
 const Header: React.FC = () => (
   <>

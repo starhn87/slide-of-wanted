@@ -3,7 +3,7 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { useSlide } from "../hooks/useSlide";
-import "../assets/css/slide.css";
+import "../assets/scss/slide.scss";
 import Slide from "./Slide";
 
 const Slider: React.FC = () => {
@@ -20,7 +20,7 @@ const Slider: React.FC = () => {
               style={{ transform: `translate3d(${slideMargin}px, 0px, 0px)` }}
             >
               {slideList.map((s) => (
-                <Slide key={s.id} {...s}></Slide>
+                <Slide key={uuid()} {...s}></Slide>
               ))}
             </div>
           </div>
