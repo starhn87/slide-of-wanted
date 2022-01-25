@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { MutableRefObject, useEffect, useMemo, useState } from "react";
 import Contents from "../assets/Data.json";
 import { SlideProvider } from "../components/Slide";
 
 interface Provider {
-  slideList: SlideProvider[];
+  list: SlideProvider[];
   slideMargin: number;
+  width: number;
   moveRight: () => void;
   moveLeft: () => void;
 }
@@ -13,16 +14,22 @@ const DEFAULT_SLIDING_WIDTH = 1084;
 const DEFAULT_SLIDE_SIZE = 1085;
 const STANDARD_SCREEN_WIDTH = 1200;
 
-const useSlide = (): Provider => {
+const useSlide = (
+  slides: MutableRefObject<HTMLDivElement | null>
+): Provider => {
   const [size, setSize] = useState(
     window.innerWidth < STANDARD_SCREEN_WIDTH
       ? -window.innerWidth
       : -DEFAULT_SLIDING_WIDTH
   );
   const [count, setCount] = useState(2);
-  const [slideMargin, setSlideMargin] = useState(size);
-  let NODES: NodeListOf<HTMLElement>;
-  let SLIDES: HTMLDivElement | null;
+  const [slideMargin, setSlideMargin] = useState(
+    window.innerWidth < STANDARD_SCREEN_WIDTH
+      ? -window.innerWidth * count + 195
+      : size * count + ((window.innerWidth - STANDARD_SCREEN_WIDTH) * 14) / 29.5
+  );
+  const [list, setList] = useState<SlideProvider[]>([]);
+  const [width, setWidth] = useState(0);
   let startPos = 0;
   let offset = 0;
   let swiping = false;
@@ -31,20 +38,24 @@ const useSlide = (): Provider => {
   const slideList = useMemo(() => {
     const list = Contents.data;
     if (Contents.data.length > 2) {
-      const firstSlide = { ...list[0] };
-      delete firstSlide.center;
       list.unshift(Contents.data[Contents.data.length - 1]);
       list.unshift(Contents.data[Contents.data.length - 2]);
-      list.push(firstSlide);
+      list.push(Contents.data[2]);
       list.push(Contents.data[3]);
     }
 
     return list;
-  }, [Contents]);
+  }, []);
 
   const swipe = () => {
-    SLIDES?.addEventListener("mousedown", handleMouseDown);
-    SLIDES?.addEventListener("mousemove", handleMouseMove);
+    (slides as MutableRefObject<HTMLDivElement>).current.addEventListener(
+      "mousedown",
+      handleMouseDown
+    );
+    (slides as MutableRefObject<HTMLDivElement>).current.addEventListener(
+      "mousemove",
+      handleMouseMove
+    );
     window.addEventListener("mouseup", handleMouseUp);
   };
 
@@ -59,11 +70,9 @@ const useSlide = (): Provider => {
     if (swiping) {
       offset = event.pageX - startPos;
 
-      SLIDES?.setAttribute(
+      (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
         "style",
-        `transitionDuration: 0ms; transform: translate3d(${
-          slideMargin + offset
-        }px, 0, 0);`
+        `transform: translate3d(${slideMargin + offset}px, 0, 0);`
       );
     }
   };
@@ -76,9 +85,9 @@ const useSlide = (): Provider => {
     } else if (offset > -size / 2) {
       moveLeft();
     } else if (offset > size / 2) {
-      SLIDES?.setAttribute(
+      (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
         "style",
-        `transitionDuration: 0ms; transform: translate3d(${slideMargin}px, 0, 0);`
+        `transform: translate3d(${slideMargin}px, 0, 0);`
       );
 
       clearTimeout(timer);
@@ -88,141 +97,97 @@ const useSlide = (): Provider => {
     }
   };
 
-  const unfocusSlide = (slide: Element | null | undefined) => {
-    slide?.classList.remove("center");
-
-    const image = slide?.querySelector(".inactivedImage.activedImage");
-    image?.classList.remove("activedImage");
-
-    const info = slide?.querySelector(".inactivedInfo.activedInfo");
-    info?.classList.remove("activedInfo");
-  };
-
-  const focusSlide = (slide: Element | null | undefined) => {
-    slide?.classList.add("center");
-
-    const image = slide?.querySelector(".inactivedImage");
-    image?.classList.add("activedImage");
-
-    const info = slide?.querySelector(".inactivedInfo");
-    info?.classList.add("activedInfo");
-  };
-
   const moveRight = () => {
-    const activedSlide = document.querySelector(".center");
-    const nextSlide = activedSlide?.nextElementSibling;
-    unfocusSlide(activedSlide);
+    (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
+      "style",
+      `transform: translate3d(${slideMargin + size}px, 0, 0)`
+    );
 
-    // 무한 슬라이딩을 위해 해당 조건일 경우 trainsition을 바꿔서 앞으로 이동시킨다.
-    if (count === NODES.length - 3) {
-      const firstSlide = NODES[1];
-      focusSlide(firstSlide);
-
-      SLIDES?.setAttribute("style", "transition: 0s");
-      setCount(1);
-      setSlideMargin(
-        window.innerWidth > 1200
-          ? size +
-              ((window.innerWidth - STANDARD_SCREEN_WIDTH) * NODES.length) / 29
-          : size
-      );
-
-      unfocusSlide(firstSlide);
-      focusSlide(firstSlide.nextElementSibling);
-
+    if (count === slideList.length - 3) {
       setTimeout(() => {
-        SLIDES?.setAttribute("style", "transition: .5s ease 0s");
-        setSlideMargin(
-          window.innerWidth > 1200
-            ? size * 2 +
-                ((window.innerWidth - STANDARD_SCREEN_WIDTH) * NODES.length) /
-                  29
-            : size * 2
+        setCount(2);
+        (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
+          "style",
+          `transition: 0s; transform: translate3d(${slideMargin}px, 0, 0)`
         );
-        setCount((count) => {
-          return count + 1;
-        });
-      }, 0);
+      }, 500);
     } else {
-      focusSlide(nextSlide);
-      setSlideMargin(slideMargin + size);
-      setCount(count + 1);
+      setTimeout(() => {
+        setCount(count + 1);
+        (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
+          "style",
+          `transition: 0s; transform: translate3d(${slideMargin}px, 0, 0)`
+        );
+      }, 500);
     }
   };
 
   const moveLeft = () => {
-    const activedSlide = document.querySelector(".center");
-    const prevSlide = activedSlide?.previousElementSibling;
-    unfocusSlide(activedSlide);
+    (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
+      "style",
+      `transform: translate3d(${slideMargin - size}px, 0, 0)`
+    );
 
-    // 무한 슬라이딩 효과를 위해 해당 조건일 경우 transition을 바꿔서 뒤로 이동시킨다.
     if (count === 2) {
-      const lastNode = NODES[NODES.length - 2];
-      focusSlide(lastNode);
-
-      SLIDES?.setAttribute("style", "transition: 0s");
-      setSlideMargin(slideMargin + size * 11);
-      setCount(NODES.length - 2);
-
-      unfocusSlide(lastNode);
-      focusSlide(lastNode.previousElementSibling);
-
       setTimeout(() => {
-        SLIDES?.setAttribute("style", "transition: .5s ease 0s");
-        setSlideMargin((slideMargin: number) => slideMargin - size);
-        setCount((count) => count - 1);
-      }, 0);
+        setCount(slideList.length - 3);
+        (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
+          "style",
+          `transition: 0s; transform: translate3d(${slideMargin}px, 0, 0)`
+        );
+      }, 500);
     } else {
-      focusSlide(prevSlide);
-      setSlideMargin(slideMargin - size);
       setCount(count - 1);
+      setTimeout(() => {
+        (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
+          "style",
+          `transition: 0s; transform: translate3d(${slideMargin}px, 0, 0)`
+        );
+      }, 500);
     }
   };
 
   const handleResize = () => {
-    let width = 1060;
     if (window.innerWidth < STANDARD_SCREEN_WIDTH) {
       setSlideMargin(-window.innerWidth * count + 195);
       setSize(-window.innerWidth + 95);
-      width = window.innerWidth - 95;
-      SLIDES?.setAttribute(
+      setWidth(window.innerWidth - 95);
+      (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
         "style",
-        `width: ${width * NODES.length}px; transform: translate3d(${
+        `width: ${width * slideList.length}px; transform: translate3d(${
           -window.innerWidth * count + 195
-        }px, 0, 0);`
+        }px, 0, 0)`
       );
     } else if (window.innerWidth === STANDARD_SCREEN_WIDTH) {
       setSlideMargin(-DEFAULT_SLIDE_SIZE * count + 10);
       setSize(-DEFAULT_SLIDING_WIDTH);
-      SLIDES?.setAttribute(
+      setWidth(1060);
+      (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
         "style",
         `width: ${
-          DEFAULT_SLIDE_SIZE * NODES.length
+          DEFAULT_SLIDE_SIZE * slideList.length
         }px; transform: translate3d(${
           -DEFAULT_SLIDE_SIZE * count - 100
-        }px, 0, 0);`
+        }px, 0, 0)`
       );
     } else {
       const margin =
         size * count +
-        ((window.innerWidth - STANDARD_SCREEN_WIDTH) * NODES.length) / 29;
+        ((window.innerWidth - STANDARD_SCREEN_WIDTH) * slideList.length) / 29.5;
       setSize(-DEFAULT_SLIDING_WIDTH);
       setSlideMargin(margin);
+      setWidth(1060);
 
-      SLIDES?.setAttribute(
+      (slides as MutableRefObject<HTMLDivElement>).current.setAttribute(
         "style",
         `width: ${
           (window.innerWidth - STANDARD_SCREEN_WIDTH + DEFAULT_SLIDE_SIZE) *
-          NODES.length
-        }px; transform: translate3d(${margin}px, 0, 0);`
+          slideList.length
+        }px; transform: translate3d(${margin}px, 0, 0)`
       );
     }
 
     setPadding();
-
-    NODES.forEach((node) => {
-      node.setAttribute("style", `width: ${width}px`);
-    });
   };
 
   const setPadding = () => {
@@ -234,34 +199,48 @@ const useSlide = (): Provider => {
     }
   };
 
-  useEffect(() => {
-    NODES = document.querySelectorAll(".slide");
-    SLIDES = document.querySelector("#slideList");
-    swipe();
+  const makeList = () => {
+    const centerNode: SlideProvider = { ...slideList[count] };
+    centerNode.center = true;
 
+    setList([
+      ...slideList.slice(count - 2, count),
+      centerNode,
+      ...slideList.slice(count + 1, count + 3),
+    ]);
+  };
+
+  useEffect(() => {
+    makeList();
     setPadding();
 
     timer = setTimeout(() => {
       moveRight();
     }, 4000);
+
     window.addEventListener("resize", handleResize);
+    swipe();
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", handleResize);
-      SLIDES?.removeEventListener("mousedown", handleMouseDown);
-      SLIDES?.removeEventListener("mousemove", handleMouseMove);
+      (slides as MutableRefObject<HTMLDivElement>).current.removeEventListener(
+        "mousedown",
+        handleMouseDown
+      );
+      (slides as MutableRefObject<HTMLDivElement>).current.removeEventListener(
+        "mousemove",
+        handleMouseMove
+      );
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [slideMargin, count]);
+  }, [count]);
 
   useEffect(() => {
-    NODES = document.querySelectorAll(".slide");
-    SLIDES = document.querySelector("#slideList");
     handleResize();
-  }, []);
+  }, [width]);
 
-  return { slideList, slideMargin, moveRight, moveLeft };
+  return { list, slideMargin, width, moveRight, moveLeft };
 };
 
 export { useSlide };
